@@ -1,6 +1,6 @@
 /**
  * ENERGYM Static Asset Management
- * All AI generation has been moved to one-time pre-generated assets in /public/assets/
+ * All AI generation has been moved to one-time pre-generated assets in /public/images/
  */
 
 const STATIC_ASSETS: Record<string, string> = {
