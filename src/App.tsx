@@ -59,6 +59,8 @@ const TESTIMONIALS = [
   { text: "Best gym in Prishtina, hands down. 4.8 stars well deserved!", author: "Drita K.", role: "Pro Athlete" },
 ];
 
+// ENERGYM | High Performance Fitness
+// Updated: 2026-04-18
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
