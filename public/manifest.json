@@ -1,0 +1,17 @@
+{
+  "name": "ENERGYM Prishtina",
+  "short_name": "ENERGYM",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#00E5FF",
+  "description": "High-performance fitness gym in Prishtina.",
+  "icons": [
+    {
+      "src": "https://fav.farm/⚡️",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

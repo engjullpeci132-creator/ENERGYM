@@ -1,0 +1,26 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Stores user membership and plan details.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "plan": { "type": "string", "enum": ["basic", "pro", "elite"] },
+        "expiryDate": { "type": "string", "format": "date-time" },
+        "notified": { "type": "boolean" },
+        "consultationPlan": { "type": "string", "enum": ["trial", "single", "bundle"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User specific data and membership status."
+    }
+  }
+}
