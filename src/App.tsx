@@ -70,7 +70,19 @@ export default function App() {
   const [showConsultation, setShowConsultation] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
-  const [gymImages, setGymImages] = useState<Record<string, string>>({});
+  const [gymImages] = useState<Record<string, string>>({
+    hero: '/assets/hero.jpg',
+    about1: '/assets/weights.jpg',
+    about2: '/assets/cardio.jpg',
+    pt: '/assets/gym-floor.jpg',
+    gal1: '/assets/gym-floor.jpg',
+    gal2: '/assets/cardio.jpg',
+    gal3: '/assets/weights.jpg',
+    trainer1: '/assets/gym-floor.jpg',
+    trainer2: '/assets/weights.jpg',
+    trainer3: '/assets/yoga.jpg'
+  });
+  
   const [isRefreshingImages, setIsRefreshingImages] = useState(false);
 
   // Popular Times Simulation Data
@@ -115,56 +127,9 @@ export default function App() {
     };
   }, [showProfile, selectedPlan, showConsultation, showAdmin, isMenuOpen, notifExpanded]);
 
+  // Local image paths are now static
   useEffect(() => {
-    async function loadImages() {
-      if (isRefreshingImages) return;
-      setIsRefreshingImages(true);
-
-      const prompts = {
-        hero: "CINEMATIC DOCUMENTARY. Wide shot of a dark high-end powerlifting gym interior, glowing neon cyan lights, heavy raw steel plates on bars, rubber floors. 8k resolution, ultra-realistic photography.",
-        about1: "MACRO PHOTOGRAPHY. High-contrast close-up of olympic iron weight plates on a textured floor. Sharp focus, metallic details, industrial moody lighting.",
-        about2: "ACTION DOCUMENTARY. Close-up of heavy battle ropes hitting a dark gym floor, dust and sweat frozen in air. High speed photography, gritty gym texture.",
-        pt: "EXPERT TRAINING. A focused strength coach's hands covered in white chalk. Dark background, powerful iron grip, cinematic lighting.",
-        gal1: "ELITE GYM INTERIOR. Rows of professional black power racks in a dark atmospheric workout zone. Neon cyan accents, heavy industrial vibe.",
-        gal2: "CARDIO TECHNOLOGY. Modern high-tech treadmill dashboard with blue glowing numeric displays. Blurred gym environment in the background.",
-        gal3: "HEAVY BAG ZONE. A black leather punching bag illuminated by a small spotlight in a dark room. Shadowy, raw training atmosphere.",
-        trainer1: "Sarah, professional powerlifting champion resting. Sweat, intense gaze, black and white high-contrast style.",
-        trainer2: "Arben doing a weighted pull-up. Extreme muscle definition, dramatic side lighting, dark gym equipment.",
-        trainer3: "Elena in a perfect deep overhead squat. Precision, athlete form, elite training facility setting."
-      };
-
-      // Parallelize in small batches for speed and stability
-      const entries = Object.entries(prompts);
-      const chunkSize = 2; // Process 2 at a time to stay safe with rate limits
-      
-      try {
-        for (let i = 0; i < entries.length; i += chunkSize) {
-          const chunk = entries.slice(i, i + chunkSize);
-          await Promise.all(chunk.map(async ([key, p]) => {
-            try {
-              // Promise.race to ensure we don't wait forever for a single image
-              const url = await Promise.race([
-                generateGymImage(p),
-                new Promise<string>((_, reject) => 
-                  setTimeout(() => reject(new Error('Timeout')), 45000)
-                )
-              ]);
-              
-              if (url) {
-                setGymImages(prev => ({ ...prev, [key]: url }));
-              }
-            } catch (e) {
-              console.error(`Failed to load ${key}:`, e);
-            }
-          }));
-        }
-      } catch (globalError) {
-        console.error("Global image loading error:", globalError);
-      } finally {
-        setIsRefreshingImages(false);
-      }
-    }
-    loadImages();
+    // We keep this empty or remove it because images are now statically defined in state init
   }, []);
 
   const getDaysRemaining = (expiryStr: string) => {
@@ -709,7 +674,7 @@ export default function App() {
         <div className="absolute inset-0 z-0">
           <img 
             src={gymImages.hero || "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=1920&h=1080"} 
-            className="w-full h-full object-cover opacity-60 mix-blend-overlay transition-opacity duration-1000"
+            className="w-full h-full object-cover opacity-70 transition-opacity duration-1000"
             alt="Gym atmosphere"
             referrerPolicy="no-referrer"
           />
@@ -940,8 +905,8 @@ export default function App() {
             </motion.div>
             
               <div className="grid grid-cols-2 gap-3 md:gap-4 h-full">
-                <img src={gymImages.about1 || "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=400&h=500"} className="rounded-2xl md:rounded-3xl w-full aspect-[3/4] object-cover transition-opacity duration-1000 shadow-2xl" alt="Gym detail" referrerPolicy="no-referrer" />
-                <img src={gymImages.about2 || "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=400&h=500"} className="rounded-2xl md:rounded-3xl w-full aspect-[3/4] object-cover mt-6 md:mt-8 transition-opacity duration-1000 shadow-2xl" alt="Person working out" referrerPolicy="no-referrer" />
+                <img src={gymImages.about1 || "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=400&h=500"} className="rounded-2xl md:rounded-3xl w-full aspect-[3/4] object-cover opacity-90 transition-opacity duration-1000 shadow-2xl" alt="Gym detail" referrerPolicy="no-referrer" />
+                <img src={gymImages.about2 || "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=400&h=500"} className="rounded-2xl md:rounded-3xl w-full aspect-[3/4] object-cover mt-6 md:mt-8 opacity-90 transition-opacity duration-1000 shadow-2xl" alt="Person working out" referrerPolicy="no-referrer" />
               </div>
           </div>
         </div>
@@ -974,7 +939,7 @@ export default function App() {
           {/* PT Section */}
           <div className="mt-8 md:mt-12 bg-neon-cyan/5 rounded-[2rem] md:rounded-[2.5rem] border border-neon-cyan/10 p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 md:gap-12">
             <div className="w-full md:w-1/3">
-              <img src={gymImages.pt || "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=800&h=800"} className="rounded-2xl md:rounded-3xl shadow-xl shadow-neon-cyan/5 transition-opacity duration-1000" alt="Personal Training" referrerPolicy="no-referrer" />
+              <img src={gymImages.pt || "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=800&h=800"} className="rounded-2xl md:rounded-3xl shadow-xl shadow-neon-cyan/5 opacity-90 transition-opacity duration-1000" alt="Personal Training" referrerPolicy="no-referrer" />
             </div>
             <div className="w-full md:w-2/3 text-center md:text-left">
               <h3 className="text-2xl md:text-3xl font-display font-bold mb-4 md:mb-6 flex items-center justify-center md:justify-start gap-3">
@@ -1050,13 +1015,13 @@ export default function App() {
         <div className="max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                <div className="grid grid-cols-2 grid-rows-2 gap-3 md:gap-4 h-[300px] md:h-[500px] w-full">
                   <div className="col-span-1 row-span-2">
-                    <img src={gymImages.gal1 || "https://images.unsplash.com/photo-1593079831268-3381b0db4a77?auto=format&fit=crop&q=80&w=400&h=600"} className="w-full h-full object-cover rounded-2xl md:rounded-3xl transition-opacity duration-1000 shadow-xl" alt="Gym interior" referrerPolicy="no-referrer" />
+                    <img src={gymImages.gal1 || "/assets/pool.jpg"} className="w-full h-full object-cover rounded-2xl md:rounded-3xl opacity-90 transition-opacity duration-1000 shadow-xl" alt="Gym interior" referrerPolicy="no-referrer" />
                   </div>
                   <div className="col-span-1 row-span-1">
-                    <img src={gymImages.gal2 || "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&q=80&w=400&h=300"} className="w-full h-full object-cover rounded-2xl md:rounded-3xl transition-opacity duration-1000 shadow-xl" alt="Weights" referrerPolicy="no-referrer" />
+                    <img src={gymImages.gal2 || "/assets/gym-floor.jpg"} className="w-full h-full object-cover rounded-2xl md:rounded-3xl opacity-90 transition-opacity duration-1000 shadow-xl" alt="Weights" referrerPolicy="no-referrer" />
                   </div>
                   <div className="col-span-1 row-span-1">
-                    <img src={gymImages.gal3 || "https://images.unsplash.com/photo-1544033527-b192daee1f5b?auto=format&fit=crop&q=80&w=400&h=300"} className="w-full h-full object-cover rounded-2xl md:rounded-3xl transition-opacity duration-1000 shadow-xl" alt="Cardio area" referrerPolicy="no-referrer" />
+                    <img src={gymImages.gal3 || "/assets/cardio.jpg"} className="w-full h-full object-cover rounded-2xl md:rounded-3xl opacity-90 transition-opacity duration-1000 shadow-xl" alt="Cardio area" referrerPolicy="no-referrer" />
                   </div>
                </div>
            <div className="text-center lg:text-left">
