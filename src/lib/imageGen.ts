@@ -4,13 +4,13 @@
  */
 
 const STATIC_ASSETS: Record<string, string> = {
-  'hero': '/assets/hero.jpg',
-  'bodybuilding': '/assets/weights.jpg',
-  'cardio': '/assets/cardio.jpg',
-  'pool': '/assets/pool.jpg',
-  'yoga': '/assets/yoga.jpg',
-  'luxury': '/assets/gym-floor.jpg',
-  'default': '/assets/gym-floor.jpg'
+  'hero': '/images/hero.jpg',
+  'bodybuilding': '/images/weights.jpg',
+  'cardio': '/images/cardio.jpg',
+  'pool': '/images/pool.jpg',
+  'yoga': '/images/yoga.jpg',
+  'luxury': '/images/gym-floor.jpg',
+  'default': '/images/gym-floor.jpg'
 };
 
 export async function generateGymImage(prompt: string) {
