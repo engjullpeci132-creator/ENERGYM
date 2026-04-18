@@ -10,6 +10,8 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
+  app.use(express.json());
+
   // Handle API routes or other server-side logic here if needed
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok" });
