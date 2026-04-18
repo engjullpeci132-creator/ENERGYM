@@ -30,8 +30,15 @@ import {
 import { auth, signInWithGoogle, logout, db } from './lib/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { generateGymImage } from './lib/imageGen';
 import { CreditCard, ShieldCheck, ArrowLeft, Loader2, Landmark, Shield } from 'lucide-react';
+
+// Image Imports - Standard Vite bundling for reliable production assets
+import heroImg from './assets/images/hero.jpg';
+import weightsImg from './assets/images/weights.jpg';
+import cardioImg from './assets/images/cardio.jpg';
+import poolImg from './assets/images/pool.jpg';
+import yogaImg from './assets/images/yoga.jpg';
+import gymFloorImg from './assets/images/gym-floor.jpg';
 
 const AdminPanel = React.lazy(() => import('./components/AdminPanel'));
 
@@ -73,16 +80,16 @@ export default function App() {
   const [showProfile, setShowProfile] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
   const [gymImages] = useState<Record<string, string>>({
-    hero: '/images/hero.jpg',
-    about1: '/images/weights.jpg',
-    about2: '/images/cardio.jpg',
-    pt: '/images/gym-floor.jpg',
-    gal1: '/images/gym-floor.jpg',
-    gal2: '/images/cardio.jpg',
-    gal3: '/images/weights.jpg',
-    trainer1: '/images/gym-floor.jpg',
-    trainer2: '/images/weights.jpg',
-    trainer3: '/images/yoga.jpg'
+    hero: heroImg,
+    about1: weightsImg,
+    about2: cardioImg,
+    pt: gymFloorImg,
+    gal1: poolImg,
+    gal2: gymFloorImg,
+    gal3: cardioImg,
+    trainer1: gymFloorImg,
+    trainer2: weightsImg,
+    trainer3: yogaImg
   });
   
   const [isRefreshingImages, setIsRefreshingImages] = useState(false);
@@ -1017,13 +1024,13 @@ export default function App() {
         <div className="max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                <div className="grid grid-cols-2 grid-rows-2 gap-3 md:gap-4 h-[300px] md:h-[500px] w-full">
                   <div className="col-span-1 row-span-2">
-                    <img src={gymImages.gal1 || "/images/pool.jpg"} className="w-full h-full object-cover rounded-2xl md:rounded-3xl opacity-90 transition-opacity duration-1000 shadow-xl" alt="Gym interior" referrerPolicy="no-referrer" />
+                    <img src={gymImages.gal1 || poolImg} className="w-full h-full object-cover rounded-2xl md:rounded-3xl opacity-90 transition-opacity duration-1000 shadow-xl" alt="Gym interior" referrerPolicy="no-referrer" />
                   </div>
                   <div className="col-span-1 row-span-1">
-                    <img src={gymImages.gal2 || "/images/gym-floor.jpg"} className="w-full h-full object-cover rounded-2xl md:rounded-3xl opacity-90 transition-opacity duration-1000 shadow-xl" alt="Weights" referrerPolicy="no-referrer" />
+                    <img src={gymImages.gal2 || gymFloorImg} className="w-full h-full object-cover rounded-2xl md:rounded-3xl opacity-90 transition-opacity duration-1000 shadow-xl" alt="Weights" referrerPolicy="no-referrer" />
                   </div>
                   <div className="col-span-1 row-span-1">
-                    <img src={gymImages.gal3 || "/images/cardio.jpg"} className="w-full h-full object-cover rounded-2xl md:rounded-3xl opacity-90 transition-opacity duration-1000 shadow-xl" alt="Cardio area" referrerPolicy="no-referrer" />
+                    <img src={gymImages.gal3 || cardioImg} className="w-full h-full object-cover rounded-2xl md:rounded-3xl opacity-90 transition-opacity duration-1000 shadow-xl" alt="Cardio area" referrerPolicy="no-referrer" />
                   </div>
                </div>
            <div className="text-center lg:text-left">

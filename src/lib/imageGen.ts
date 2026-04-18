@@ -1,16 +1,23 @@
 /**
  * ENERGYM Static Asset Management
- * All AI generation has been moved to one-time pre-generated assets in /public/images/
+ * All assets are handled via standard Vite imports for production reliability.
  */
 
+import hero from '../assets/images/hero.jpg';
+import weights from '../assets/images/weights.jpg';
+import cardio from '../assets/images/cardio.jpg';
+import pool from '../assets/images/pool.jpg';
+import yoga from '../assets/images/yoga.jpg';
+import gymFloor from '../assets/images/gym-floor.jpg';
+
 const STATIC_ASSETS: Record<string, string> = {
-  'hero': '/images/hero.jpg',
-  'bodybuilding': '/images/weights.jpg',
-  'cardio': '/images/cardio.jpg',
-  'pool': '/images/pool.jpg',
-  'yoga': '/images/yoga.jpg',
-  'luxury': '/images/gym-floor.jpg',
-  'default': '/images/gym-floor.jpg'
+  'hero': hero,
+  'bodybuilding': weights,
+  'cardio': cardio,
+  'pool': pool,
+  'yoga': yoga,
+  'luxury': gymFloor,
+  'default': gymFloor
 };
 
 export async function generateGymImage(prompt: string) {
