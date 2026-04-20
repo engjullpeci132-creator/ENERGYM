@@ -25,7 +25,8 @@ import {
   User as UserIcon,
   Bell,
   Clock,
-  TrendingUp
+  TrendingUp,
+  ChevronDown
 } from 'lucide-react';
 import { auth, signInWithGoogle, logout, db } from './lib/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
@@ -66,6 +67,25 @@ const TESTIMONIALS = [
   { text: "Best gym in Prishtina, hands down. 4.8 stars well deserved!", author: "Drita K.", role: "Pro Athlete" },
 ];
 
+const FAQS = [
+  {
+    question: "Can I pause my membership?",
+    answer: "Yes, Elite members can pause their membership for up to 30 days per year without any additional fees. Pro members can pause for up to 14 days."
+  },
+  {
+    question: "Do I need to bring my own towel?",
+    answer: "We provide small sweat towels on the gym floor complimentary. Shower towels are available at the reception for a small fee, or included free for Elite members."
+  },
+  {
+    question: "Are lockers included?",
+    answer: "Yes, digital lockers are included for all members. You can secure them using your gym wristband or via our mobile app."
+  },
+  {
+    question: "How do I book a class?",
+    answer: "You can book classes directly through the member dashboard once you log in, or through the ENERGYM mobile app up to 7 days in advance."
+  }
+];
+
 // ENERGYM | High Performance Fitness
 // Updated: 2026-04-18
 export default function App() {
@@ -93,6 +113,7 @@ export default function App() {
   });
   
   const [isRefreshingImages, setIsRefreshingImages] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   // Popular Times Simulation Data
   const popularTimes = [
@@ -1072,7 +1093,6 @@ export default function App() {
                   className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 filter grayscale-[0.2] group-hover:grayscale-0" 
                   alt={t.name} 
                   referrerPolicy="no-referrer"
-                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-gym-black via-gym-black/20 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500" />
                 <div className="absolute bottom-0 left-0 p-6 md:p-8">
@@ -1103,6 +1123,47 @@ export default function App() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-16 md:py-24 px-4 md:px-6">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 italic">FREQUENTLY ASKED <span className="text-neon-cyan">QUESTIONS</span></h2>
+            <p className="opacity-70 text-sm md:text-base">Everything you need to know about memberships, classes, and facilities.</p>
+          </div>
+          
+          <div className="space-y-4">
+            {FAQS.map((faq, index) => (
+              <div 
+                key={index} 
+                className="glass border border-white/5 rounded-2xl overflow-hidden transition-all duration-300"
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
+                >
+                  <span className="font-bold pr-4 text-sm md:text-base tracking-tight">{faq.question}</span>
+                  <ChevronDown className={`w-5 h-5 text-neon-cyan shrink-0 transition-transform duration-300 ${openFaq === index ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {openFaq === index && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-6 pb-6 pt-0 opacity-70 text-sm leading-relaxed border-t border-white/5 mt-2 pt-4">
+                        {faq.answer}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -1161,7 +1222,6 @@ export default function App() {
                 className="absolute inset-0 w-full h-full grayscale invert opacity-60 contrast-125"
                 style={{ border: 0 }} 
                 allowFullScreen={true} 
-                loading="lazy" 
                 referrerPolicy="no-referrer-when-downgrade"
               />
               <div className="absolute inset-x-0 bottom-0 p-4 md:p-6 translate-y-2 group-hover:translate-y-0 transition-transform">
