@@ -33,14 +33,7 @@ import { onAuthStateChanged, User } from 'firebase/auth';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { CreditCard, ShieldCheck, ArrowLeft, Loader2, Landmark, Shield } from 'lucide-react';
 
-// Image Imports - Standard Vite bundling for reliable production assets
-import heroImg from './assets/images/hero.jpg';
-import weightsImg from './assets/images/weights.jpg';
-import cardioImg from './assets/images/cardio.jpg';
-import poolImg from './assets/images/pool.jpg';
-import yogaImg from './assets/images/yoga.jpg';
-import gymFloorImg from './assets/images/gym-floor.jpg';
-
+// Absolute URLs for guaranteed CDN delivery anywhere
 const AdminPanel = React.lazy(() => import('./components/AdminPanel'));
 
 const CLASSES = [
@@ -100,16 +93,16 @@ export default function App() {
   const [showProfile, setShowProfile] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
   const [gymImages] = useState<Record<string, string>>({
-    hero: heroImg,
-    about1: weightsImg,
-    about2: cardioImg,
-    pt: gymFloorImg,
-    gal1: poolImg,
-    gal2: gymFloorImg,
-    gal3: cardioImg,
-    trainer1: gymFloorImg,
-    trainer2: weightsImg,
-    trainer3: yogaImg
+    hero: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1920&auto=format&fit=crop',
+    about1: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1080&auto=format&fit=crop',
+    about2: 'https://images.unsplash.com/photo-1538805060514-97d9cc17730c?q=80&w=1080&auto=format&fit=crop',
+    pt: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=1080&auto=format&fit=crop',
+    gal1: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=1080&auto=format&fit=crop',
+    gal2: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=1080&auto=format&fit=crop',
+    gal3: 'https://images.unsplash.com/photo-1538805060514-97d9cc17730c?q=80&w=1080&auto=format&fit=crop',
+    trainer1: 'https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&q=80&w=400&h=500',
+    trainer2: 'https://images.unsplash.com/photo-1567013127542-490d757e51fe?auto=format&fit=crop&q=80&w=400&h=500',
+    trainer3: 'https://images.unsplash.com/photo-1552196563-55cd4e45efb3?auto=format&fit=crop&q=80&w=400&h=500'
   });
   
   const [isRefreshingImages, setIsRefreshingImages] = useState(false);
@@ -935,8 +928,8 @@ export default function App() {
             </motion.div>
             
               <div className="grid grid-cols-2 gap-3 md:gap-4 h-full">
-                <img src={gymImages.about1 || "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=400&h=500"} className="rounded-2xl md:rounded-3xl w-full aspect-[3/4] object-cover opacity-90 transition-opacity duration-1000 shadow-2xl" alt="Gym detail" referrerPolicy="no-referrer" />
-                <img src={gymImages.about2 || "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=400&h=500"} className="rounded-2xl md:rounded-3xl w-full aspect-[3/4] object-cover mt-6 md:mt-8 opacity-90 transition-opacity duration-1000 shadow-2xl" alt="Person working out" referrerPolicy="no-referrer" />
+                <img src={gymImages.about1} className="rounded-2xl md:rounded-3xl w-full aspect-[3/4] object-cover opacity-90 transition-opacity duration-1000 shadow-2xl" alt="Gym detail" referrerPolicy="no-referrer" />
+                <img src={gymImages.about2} className="rounded-2xl md:rounded-3xl w-full aspect-[3/4] object-cover mt-6 md:mt-8 opacity-90 transition-opacity duration-1000 shadow-2xl" alt="Person working out" referrerPolicy="no-referrer" />
               </div>
           </div>
         </div>
@@ -969,7 +962,7 @@ export default function App() {
           {/* PT Section */}
           <div className="mt-8 md:mt-12 bg-neon-cyan/5 rounded-[2rem] md:rounded-[2.5rem] border border-neon-cyan/10 p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 md:gap-12">
             <div className="w-full md:w-1/3">
-              <img src={gymImages.pt || "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=800&h=800"} className="rounded-2xl md:rounded-3xl shadow-xl shadow-neon-cyan/5 opacity-90 transition-opacity duration-1000" alt="Personal Training" referrerPolicy="no-referrer" />
+              <img src={gymImages.pt} className="rounded-2xl md:rounded-3xl shadow-xl shadow-neon-cyan/5 opacity-90 transition-opacity duration-1000" alt="Personal Training" referrerPolicy="no-referrer" />
             </div>
             <div className="w-full md:w-2/3 text-center md:text-left">
               <h3 className="text-2xl md:text-3xl font-display font-bold mb-4 md:mb-6 flex items-center justify-center md:justify-start gap-3">
@@ -1045,13 +1038,13 @@ export default function App() {
         <div className="max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                <div className="grid grid-cols-2 grid-rows-2 gap-3 md:gap-4 h-[300px] md:h-[500px] w-full">
                   <div className="col-span-1 row-span-2">
-                    <img src={gymImages.gal1 || poolImg} className="w-full h-full object-cover rounded-2xl md:rounded-3xl opacity-90 transition-opacity duration-1000 shadow-xl" alt="Gym interior" referrerPolicy="no-referrer" />
+                    <img src={gymImages.gal1} className="w-full h-full object-cover rounded-2xl md:rounded-3xl opacity-90 transition-opacity duration-1000 shadow-xl" alt="Gym interior" referrerPolicy="no-referrer" />
                   </div>
                   <div className="col-span-1 row-span-1">
-                    <img src={gymImages.gal2 || gymFloorImg} className="w-full h-full object-cover rounded-2xl md:rounded-3xl opacity-90 transition-opacity duration-1000 shadow-xl" alt="Weights" referrerPolicy="no-referrer" />
+                    <img src={gymImages.gal2} className="w-full h-full object-cover rounded-2xl md:rounded-3xl opacity-90 transition-opacity duration-1000 shadow-xl" alt="Weights" referrerPolicy="no-referrer" />
                   </div>
                   <div className="col-span-1 row-span-1">
-                    <img src={gymImages.gal3 || cardioImg} className="w-full h-full object-cover rounded-2xl md:rounded-3xl opacity-90 transition-opacity duration-1000 shadow-xl" alt="Cardio area" referrerPolicy="no-referrer" />
+                    <img src={gymImages.gal3} className="w-full h-full object-cover rounded-2xl md:rounded-3xl opacity-90 transition-opacity duration-1000 shadow-xl" alt="Cardio area" referrerPolicy="no-referrer" />
                   </div>
                </div>
            <div className="text-center lg:text-left">
