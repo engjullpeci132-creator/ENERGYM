@@ -165,7 +165,8 @@ export default function App() {
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+      const y = el.getBoundingClientRect().top + window.scrollY - 130; // Offset for banner (wrap-ready) + nav
+      window.scrollTo({ top: y, behavior: 'smooth' });
       setIsMenuOpen(false);
     }
   };
@@ -282,10 +283,10 @@ export default function App() {
                              </div>
                           </div>
 
-                          <div className="grid grid-cols-2 gap-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                              <div className="p-6 bg-white/5 rounded-3xl border border-white/10 hover:border-neon-cyan/30 transition-colors group">
                                 <span className="block text-[10px] uppercase opacity-50 mb-2 font-bold tracking-widest group-hover:text-neon-cyan group-hover:opacity-100 transition-all">Expires On</span>
-                                <span className="text-xl font-bold font-mono text-white/90">
+                                <span className="text-lg md:text-xl font-bold font-mono text-white/90">
                                   {userData.expiryDate ? new Date(userData.expiryDate).toLocaleDateString('en-US', { 
                                     month: 'short', 
                                     day: 'numeric', 
@@ -295,7 +296,7 @@ export default function App() {
                              </div>
                              <div className="p-6 bg-white/5 rounded-3xl border border-neon-cyan/20 relative">
                                 <span className="block text-[10px] uppercase text-neon-cyan mb-2 font-bold tracking-widest">Time Remaining</span>
-                                <span className="text-xl font-bold">
+                                <span className="text-lg md:text-xl font-bold">
                                   {userData.expiryDate ? `${getDaysRemaining(userData.expiryDate)} Days` : 'Lifetime'}
                                 </span>
                                 <motion.div 
@@ -355,9 +356,9 @@ export default function App() {
                     <h4 className="text-[10px] uppercase font-bold tracking-[0.3em] text-neon-cyan mb-6">Hired Consultations</h4>
                     
                     {userData?.consultationPlan ? (
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                         <div>
-                          <h3 className="text-2xl font-display font-bold uppercase italic">
+                          <h3 className="text-xl md:text-2xl font-display font-bold uppercase italic">
                             {CONSULTATION_PLANS.find(p => p.id === userData.consultationPlan)?.name || 'Consultation Plan'}
                           </h3>
                           <p className="text-[10px] font-mono opacity-60 mt-2 uppercase tracking-widest text-neon-cyan">
@@ -368,14 +369,14 @@ export default function App() {
                             })}` : 'Currently Scheduled / Active'}
                           </p>
                         </div>
-                        <div className="flex gap-4">
-                          <div className="p-4 bg-white/5 rounded-2xl border border-white/10 text-center">
+                        <div className="flex sm:flex-row gap-4">
+                          <div className="p-4 bg-white/5 rounded-2xl border border-white/10 text-center flex-1">
                             <span className="block text-[10px] uppercase opacity-50 mb-1">Status</span>
                             <span className="text-xs font-bold text-neon-cyan">CONFIRMED</span>
                           </div>
                           <button 
                             onClick={() => setShowConsultation(true)}
-                            className="px-6 py-4 glass border border-neon-cyan/30 rounded-2xl text-xs font-bold hover:bg-neon-cyan hover:text-gym-black transition-all uppercase tracking-widest"
+                            className="px-6 py-4 glass border border-neon-cyan/30 rounded-2xl text-xs font-bold hover:bg-neon-cyan hover:text-gym-black transition-all uppercase tracking-widest flex-1 whitespace-nowrap"
                           >
                             Upgrade
                           </button>
@@ -564,8 +565,15 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <nav className="fixed top-0 left-0 right-0 z-50 glass transition-all">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <header className="fixed top-0 left-0 right-0 z-50 flex flex-col transition-all">
+        {/* SYSTEM NOTICE */}
+        <div className="bg-neon-cyan text-gym-black py-2 px-4 text-center text-[10px] sm:text-xs md:text-sm font-bold z-[100] w-full flex items-center justify-center gap-2 shadow-lg shadow-neon-cyan/20">
+          <Shield className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
+          <span>SYSTEM_NOTICE: Demo mode. For full functional website system, visit <a href="https://vizionidigjital.com" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white transition-colors">vizionidigjital.com</a></span>
+        </div>
+
+        <nav className="glass transition-all relative">
+          <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div 
             className="text-2xl font-display font-bold tracking-tighter cursor-pointer"
             onClick={() => scrollTo('hero')}
@@ -614,6 +622,7 @@ export default function App() {
           </button>
         </div>
       </nav>
+      </header>
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -623,13 +632,13 @@ export default function App() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-40 bg-gym-black/95 backdrop-blur-xl pt-24 px-6 md:hidden overflow-y-auto"
+            className="fixed inset-0 z-40 bg-gym-black/95 backdrop-blur-xl pt-32 px-6 md:hidden overflow-y-auto"
           >
             <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
                <Zap className="w-[150%] h-[150%] absolute -top-1/4 -right-1/4 text-neon-cyan rotate-12" />
             </div>
 
-            <div className="relative z-10 flex flex-col gap-6 text-3xl font-display font-bold">
+            <div className="relative z-10 flex flex-col gap-4 sm:gap-6 text-2xl sm:text-3xl font-display font-bold pb-20">
                 {user && (
                   <button 
                     onClick={() => {
@@ -704,7 +713,7 @@ export default function App() {
           <div className="absolute inset-0 bg-gradient-to-b from-gym-black/80 via-gym-black/20 to-gym-black" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center pt-20">
+        <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center pt-32 pb-20 lg:py-32">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -998,7 +1007,7 @@ export default function App() {
             {PRICING.map((plan) => (
               <div 
                 key={plan.id}
-                className={`relative p-10 rounded-[3rem] border ${plan.popular ? 'border-neon-cyan bg-neon-cyan/5 scale-105 z-10' : 'border-white/10 glass'} flex flex-col`}
+                className={`relative p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] border ${plan.popular ? 'border-neon-cyan bg-neon-cyan/5 md:scale-105 z-10' : 'border-white/10 glass'} flex flex-col`}
               >
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-neon-cyan text-gym-black text-[10px] font-black uppercase tracking-widest rounded-full">
